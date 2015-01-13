@@ -254,7 +254,12 @@ def get_user_agent(plugin):
 def send_heartbeat(project=None, branch=None, stats={}, key=None, targetFile=None,
         timestamp=None, isWrite=None, plugin=None, offline=None,
         hidefilenames=None, **kwargs):
+    configs = parseConfigFile()
     url = 'https://wakatime.com/api/v1/heartbeats'
+
+    if configs.has_option('settings', 'url'):
+        url = configs.get('settings', 'url')
+
     log.debug('Sending heartbeat to api at %s' % url)
     data = {
         'time': timestamp,
